@@ -1,5 +1,7 @@
-module ActiveRecord::Import::MssqlAdapter
+module ActiveRecord::Import::MSSQLAdapter
   include ActiveRecord::Import::ImportSupport
+
+  MIN_VERSION_FOR_IMPORT = '2008'
 
   # There is a limit of 1000 rows on the insert method
   # We need to process it in batchese appended to the final SQL.
@@ -30,4 +32,7 @@ module ActiveRecord::Import::MssqlAdapter
     number_of_inserts
   end
 
+  def supports_import?(current_version = self.sqlserver_version)
+    current_version >= MIN_VERSION_FOR_IMPORT
+  end
 end
